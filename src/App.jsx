@@ -76,7 +76,8 @@ function App() {
     const imagesToPreload = [
       './bg.png',
       './sky.png',
-      './ank.png'
+      './ank.png',
+      './ank2.png'
     ];
 
     let loadedCount = 0;
@@ -158,6 +159,29 @@ function App() {
     gsap.set(".experience-card", { y: 100, opacity: 0 });
     gsap.set(".skill-bar", { scaleX: 0 });
     gsap.set(".skill-item", { x: -50, opacity: 0 });
+    gsap.set(".profile-image", { scale: 0.8, opacity: 0 });
+    gsap.set(".profile-overlay", { y: 50, opacity: 0 });
+
+    // Profile section animation
+    ScrollTrigger.create({
+      trigger: ".cntnr",
+      start: "top 80%",
+      onEnter: () => {
+        gsap.to(".profile-image", {
+          scale: 1,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.out"
+        });
+        gsap.to(".profile-overlay", {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          delay: 0.3,
+          ease: "power3.out"
+        });
+      }
+    });
 
     ScrollTrigger.create({
       trigger: ".portfolio-section",
@@ -532,10 +556,10 @@ function App() {
                 alt="City Background"
                 loading="eager"
               />
-              <div className="text text-white flex flex-col gap-1 md:gap-3 absolute top-16 md:top-20 left-1/2 -translate-x-1/2 scale-[0.5] md:scale-[1.0] rotate-0">
-                <h1 className="text-[6rem] md:text-[8rem] leading-[0.8] text-center font-bold">ankit</h1>
-                <h1 className="text-[6rem] md:text-[8rem] leading-[0.8] text-center font-bold">ranjan</h1>
-                <h1 className="text-[6rem] md:text-[8rem] leading-[0.8] text-center font-bold">portfolio</h1>
+              <div className="text text-white flex flex-col gap-1 md:gap-3 absolute top-36 md:top-20 left-1/2 -translate-x-1/2 scale-[0.5] md:scale-[1.0] rotate-0">
+                <h1 className="text-[6rem] md:text-[8rem] leading-[0.8] text-center font-bold">software</h1>
+                <h1 className="text-[6rem] md:text-[8rem] leading-[0.8] text-center font-bold">engineer</h1>
+                {/* <h1 className="text-[6rem] md:text-[8rem] leading-[0.8] text-center font-bold">portfolio</h1> */}
               </div>
               <img
                 className="absolute character bottom-0 left-1/2 -translate-x-1/2 scale-[1.0] rotate-0 h-[75%] md:h-[85%] w-auto object-contain object-bottom z-[2]"
@@ -560,30 +584,29 @@ function App() {
           </div>
           <div className="w-full min-h-screen flex items-center justify-center bg-black px-4 md:px-0">
             <div className="cntnr flex flex-col lg:flex-row text-white w-full h-auto lg:h-[80%] gap-8 lg:gap-0">
+              
+              {/* Left side - Image */}
+              <div className="lf w-full lg:w-[50%] xl:w-[70%] py-8 md:py-16 lg:py-30 order-2 lg:order-1 flex items-center justify-center">
+                <div className="relative w-full max-w-lg lg:max-w-2xl">
+                  <img
+                    className="profile-image w-full h-auto object-contain rounded-lg shadow-2xl"
+                    src="./ank2.png"
+                    alt="Ankit Ranjan Profile"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-lg"></div>
+                  <div className="profile-overlay absolute bottom-6 left-6 right-6">
+                    <div className="bg-black/70 backdrop-blur-sm rounded-lg p-4 border border-yellow-500/30">
+                      <h3 className="text-xl md:text-2xl font-bold text-yellow-500 mb-2">Portfolio Highlights</h3>
+                      <p className="text-sm md:text-base text-gray-300">Cloud DevOps Enthusiast and Backend Developer with expertise in Java Spring Boot, AWS, Docker, Kubernetes, and REST APIs, passionate about building scalable and efficient systems.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             
               <div className="rg w-full lg:w-[50%] xl:w-[30%] py-8 md:py-16 lg:py-30 order-1 lg:order-2">
                 <h1 className="text-4xl md:text-6xl lg:text-8xl">Ankit Ranjan</h1>
-                <h1 className="text-4xl md:text-6xl lg:text-8xl">Full Stack Developer</h1>
-                <div className="mt-6 md:mt-10 text-base md:text-lg lg:text-xl font-[Helvetica_Now_Display]">
-                  <p className="mb-2">📧 ankitrobinranjan@gmail.com</p>
-                  <p className="mb-2">📱 +91 - 8603995362</p>
-                  <p className="mb-2">💼 linkedin.com/in/ankitrj3</p>
-                  <p className="mb-4">🔗 github.com/ankitrj3</p>
-                </div>
-                <div className="mt-4 md:mt-6 text-sm md:text-base lg:text-lg font-[Helvetica_Now_Display]">
-                  <h3 className="text-xl md:text-2xl text-yellow-500 mb-3">Skills</h3>
-                  <p className="mb-2"><strong>Languages:</strong> C++, Java, JavaScript, C, PHP</p>
-                  <p className="mb-2"><strong>Frameworks:</strong> HTML/CSS, Tailwind CSS, ReactJS, SpringBoot</p>
-                  <p className="mb-2"><strong>Tools:</strong> MySQL, MongoDB, AWS, Docker, Kubernetes, Unity, Git</p>
-                </div>
-                <div className="mt-4 md:mt-6 text-sm md:text-base lg:text-lg font-[Helvetica_Now_Display]">
-                  <h3 className="text-xl md:text-2xl text-yellow-500 mb-3">Education</h3>
-                  <p className="mb-2"><strong>BTech CSE</strong> - Lovely Professional University (CGPA: 8.10)</p>
-                  <p className="mb-2"><strong>Diploma CSE</strong> - LPU (CGPA: 9.20)</p>
-                </div>
-                <button className="bg-yellow-500 hover:bg-yellow-400 px-6 md:px-8 lg:px-10 py-6 md:py-8 lg:py-10 text-black mt-6 md:mt-10 text-2xl md:text-3xl lg:text-4xl font-bold rounded-lg shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-yellow-500/30">
-                  View Portfolio
-                </button>
+                <h1 className="text-4xl md:text-6xl lg:text-8xl">Backend Developer</h1>
               </div>
             </div>
           </div>
