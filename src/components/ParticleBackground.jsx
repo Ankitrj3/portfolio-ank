@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 
@@ -34,7 +34,7 @@ const ParticleBackground = () => {
     }
 
     // Animate particles
-    particles.forEach((particle, index) => {
+    particles.forEach((particle) => {
       gsap.set(particle, {
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,

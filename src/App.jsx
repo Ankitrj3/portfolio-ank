@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -12,8 +12,6 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [showAllSkills, setShowAllSkills] = useState(false);
-  const portfolioRef = useRef(null);
-  const skillsRef = useRef(null);
 
   // Toggle navigation menu
   const toggleNav = () => {
@@ -222,7 +220,7 @@ function App() {
     setTimeout(() => {
       setShowContent(true);
     }, 5000);
-  }, []);
+  }, [isLoaded]);
   useGSAP(() => {
     if (!isLoaded) return;
     
@@ -455,7 +453,7 @@ function App() {
 
     // Animated background waves
     const sections = ['.portfolio-section', '.skills-container', '.contact-section'];
-    sections.forEach((selector, index) => {
+    sections.forEach((selector) => {
       const section = document.querySelector(selector);
       if (section) {
         // Create wave elements
