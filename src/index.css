@@ -33,17 +33,18 @@ body {
   }
   
   .text h1 {
-    font-size: clamp(3rem, 12vw, 6rem) !important;
+    font-size: clamp(3.5rem, 12vw, 5rem) !important;
     line-height: 0.8 !important;
   }
   
   .character {
-    max-height: 80vh !important;
+    max-height: 75vh !important;
     width: auto !important;
     object-position: bottom center !important;
     z-index: 2 !important;
-    transform: translateX(-50%) scale(1.0) !important;
+    transform: scale(1.0) !important;
     object-fit: contain !important;
+    right: 0 !important;
   }
   
   .imagesdiv {
@@ -52,9 +53,12 @@ body {
   }
   
   .text {
-    top: 12vh !important;
-    transform: translateX(-50%) scale(0.35) rotate(-3deg) !important;
-    z-index: 3 !important;
+    top: 15% !important;
+    left: 50% !important;
+    transform: translateX(-50%) scale(0.4) rotate(0deg) !important;
+    z-index: 5 !important;
+    width: 90vw !important;
+    text-align: center !important;
   }
   
   .landing {
@@ -79,12 +83,17 @@ body {
   }
   
   .navbar {
-    z-index: 15 !important;
+    z-index: 45 !important;
     background: rgba(0,0,0,0.4) !important;
     backdrop-filter: blur(8px) !important;
     padding: 0.5rem 1rem !important;
     height: auto !important;
     min-height: 60px !important;
+  }
+  
+  /* Ensure mobile nav is above navbar */
+  .mobile-nav {
+    z-index: 50 !important;
   }
   
   .sky {
@@ -94,19 +103,37 @@ body {
   .bg {
     transform: scale(1.2) rotate(-1deg) !important;
   }
+  
+  /* Mobile skills grid */
+  .skills-container .grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+  }
+  
+  .skill-item {
+    padding: 0.75rem !important;
+    min-height: 100px !important;
+  }
+  
+  .skill-item span {
+    font-size: 0.875rem !important;
+  }
 }
 
 /* Desktop text positioning */
 @media (min-width: 769px) {
   .text {
-    top: 4rem !important;
-    transform: translateX(-50%) scale(1.0) rotate(0deg) !important;
-    z-index: 3 !important;
+    top: 25% !important;
+    left: 10% !important;
+    transform: translateX(0) scale(1.0) rotate(0deg) !important;
+    z-index: 5 !important;
+    width: auto !important;
   }
   
   .text h1 {
     font-size: 8rem !important;
     line-height: 0.85 !important;
+    text-align: left !important;
   }
   
   .character {
@@ -204,6 +231,349 @@ button:hover {
 /* Portfolio Section Styles */
 .portfolio-section {
   background: linear-gradient(135deg, #000 0%, #1a1a1a 50%, #000 100%);
+  position: relative;
+  overflow: hidden;
+  background-size: 400% 400%;
+}
+
+.skills-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-section {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background Animation Elements */
+.floating-particle {
+  will-change: transform, opacity;
+  border-radius: 50%;
+  filter: blur(0.5px);
+}
+
+.background-wave {
+  will-change: transform, opacity;
+  filter: blur(1px);
+}
+
+.background-grid {
+  will-change: transform, opacity;
+  mix-blend-mode: overlay;
+}
+
+/* Enhanced section backgrounds */
+.portfolio-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+  animation: pulse 4s ease-in-out infinite;
+}
+
+.skills-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(245, 158, 11, 0.05) 0%, transparent 50%, rgba(245, 158, 11, 0.05) 100%);
+  pointer-events: none;
+  z-index: 1;
+  animation: slideBackground 8s linear infinite;
+}
+
+.contact-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: conic-gradient(from 0deg, rgba(245, 158, 11, 0.1) 0%, transparent 50%, rgba(245, 158, 11, 0.1) 100%);
+  pointer-events: none;
+  z-index: 1;
+  animation: rotate 15s linear infinite;
+}
+
+/* Experience Card Background Animations */
+.bg-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(245, 158, 11, 0.2);
+  pointer-events: none;
+}
+
+.bg-particle-1 {
+  width: 8px;
+  height: 8px;
+  top: 10%;
+  left: 80%;
+  animation: floatParticle1 6s ease-in-out infinite;
+}
+
+.bg-particle-2 {
+  width: 6px;
+  height: 6px;
+  top: 70%;
+  left: 15%;
+  animation: floatParticle2 8s ease-in-out infinite;
+}
+
+.bg-particle-3 {
+  width: 4px;
+  height: 4px;
+  top: 30%;
+  left: 90%;
+  animation: floatParticle3 10s ease-in-out infinite;
+}
+
+.card-glow {
+  animation: cardGlow 4s ease-in-out infinite;
+}
+
+@keyframes floatParticle1 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.3; }
+  25% { transform: translate(-10px, -15px) rotate(90deg); opacity: 0.6; }
+  50% { transform: translate(-5px, -25px) rotate(180deg); opacity: 0.4; }
+  75% { transform: translate(5px, -10px) rotate(270deg); opacity: 0.7; }
+}
+
+@keyframes floatParticle2 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.4; }
+  33% { transform: translate(15px, -10px) rotate(120deg); opacity: 0.6; }
+  66% { transform: translate(-10px, 15px) rotate(240deg); opacity: 0.3; }
+}
+
+@keyframes floatParticle3 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.2; }
+  50% { transform: translate(-20px, 10px) scale(1.2); opacity: 0.8; }
+}
+
+@keyframes cardGlow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+/* Skills container improvements */
+.skills-container {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  justify-items: stretch;
+  align-items: stretch;
+  justify-content: center;
+  margin: 0 auto;
+  transition: all 0.3s ease;
+}
+
+/* Ensure consistent alignment for all skill items */
+.skills-grid .skill-item {
+  opacity: 1;
+  transform: translateX(0) translateY(0);
+  transition: all 0.5s ease;
+}
+
+/* Animation for newly added skills */
+.skills-grid .skill-item.skill-item-new {
+  animation: slideInSkill 0.5s ease forwards;
+}
+
+@keyframes slideInSkill {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive grid adjustments */
+@media (min-width: 640px) {
+  .skills-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .skills-grid {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .skills-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .skills-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    max-width: 1400px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .skills-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5rem;
+    max-width: 1600px;
+  }
+}
+
+.skill-item {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-height: 120px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  /* Ensure consistent grid positioning */
+  grid-column: span 1;
+  align-self: stretch;
+}
+
+.skill-item .relative {
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.skill-item .flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  min-height: 32px;
+}
+
+.skill-item .flex > div {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.skill-item span {
+  word-break: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.25;
+  font-weight: 600;
+}
+
+.skill-item i {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Force grid recalculation on skill toggle */
+.skills-grid[data-expanded="true"] {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+@media (min-width: 1280px) {
+  .skills-grid[data-expanded="true"] {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Skill Item Background Animations */
+.skill-bg-glow {
+  animation: skillGlow 3s ease-in-out infinite;
+}
+
+.skill-particles {
+  animation: skillPulse 2s ease-in-out infinite;
+}
+
+@keyframes skillGlow {
+  0%, 100% { 
+    opacity: 0.3; 
+    transform: translateX(0%);
+  }
+  50% { 
+    opacity: 0.6; 
+    transform: translateX(10%);
+  }
+}
+
+@keyframes skillPulse {
+  0%, 100% { 
+    opacity: 0.3; 
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.8; 
+    transform: scale(1.3);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes slideBackground {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Ensure content is above background animations */
+.portfolio-section > *:not(.floating-particle):not(.background-wave):not(.background-grid),
+.skills-container > *:not(.floating-particle):not(.background-wave):not(.background-grid),
+.contact-section > *:not(.floating-particle):not(.background-wave):not(.background-grid) {
+  position: relative;
+  z-index: 10;
 }
 
 .experience-card {
@@ -230,11 +600,27 @@ button:hover {
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 1.5s ease;
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(to right, #f59e0b, #fbbf24);
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .skill-bar-container {
   position: relative;
   overflow: hidden;
+  width: 100%;
+  background-color: rgb(55, 65, 81);
+  border-radius: 9999px;
+  height: 8px;
+}
+
+@media (min-width: 768px) {
+  .skill-bar-container {
+    height: 12px;
+  }
 }
 
 .skill-bar::after {
@@ -287,10 +673,45 @@ button:hover {
   
   .skill-item {
     padding: 1rem !important;
+    min-height: 100px !important;
+  }
+  
+  .skills-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  
+  .skill-item .flex {
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+  }
+  
+  .skill-item span {
+    font-size: 0.875rem !important;
+    line-height: 1.25rem !important;
   }
   
   .contact-item {
     padding: 1.5rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .skills-grid {
+    padding: 0 0.5rem;
+  }
+  
+  .skill-item {
+    padding: 0.75rem !important;
+    min-height: 90px !important;
+  }
+  
+  .skill-item span {
+    font-size: 0.75rem !important;
+  }
+  
+  .skill-item i {
+    font-size: 1rem !important;
   }
 }
 
@@ -359,7 +780,6 @@ button:hover {
 .mobile-nav {
   backdrop-filter: blur(20px);
   background: rgba(0, 0, 0, 0.95);
-  display: none;
 }
 
 /* Ensure mobile nav is hidden on desktop */
@@ -375,48 +795,158 @@ button:hover {
   }
 }
 
-/* Ensure mobile nav works on mobile */
-@media (max-width: 767px) {
-  .mobile-nav {
-    display: flex !important;
-  }
-}
-
-.mobile-nav button {
+/* Enhanced mobile navigation buttons */
+.mobile-nav-btn {
   font-family: "pricedown", sans-serif;
-  background: none;
-  border: none;
+  background: rgba(31, 41, 55, 0.3);
+  border: 1px solid rgba(107, 114, 128, 0.3);
   cursor: pointer;
-  padding: 1rem 2rem;
-  border-radius: 50px;
+  border-radius: 16px;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  min-width: 280px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.mobile-nav button::before {
+.mobile-nav-btn::before {
   content: '';
   position: absolute;
   top: 50%;
   left: 50%;
   width: 0;
   height: 0;
-  background: rgba(245, 158, 11, 0.2);
-  border-radius: 50%;
+  background: rgba(245, 158, 11, 0.1);
+  border-radius: 16px;
   transition: all 0.3s ease;
   transform: translate(-50%, -50%);
   z-index: -1;
 }
 
-.mobile-nav button:hover::before {
+.mobile-nav-btn:hover::before {
   width: 100%;
   height: 100%;
-  border-radius: 10px;
 }
 
-.mobile-nav button:hover {
+.mobile-nav-btn:hover {
+  transform: translateY(-3px);
+  border-color: rgba(245, 158, 11, 0.6);
+  box-shadow: 0 15px 30px rgba(245, 158, 11, 0.2);
+  background: rgba(245, 158, 11, 0.05);
+}
+
+.mobile-nav-btn:active {
+  transform: translateY(-1px);
+}
+
+/* Mobile Navigation Full Screen */
+.mobile-nav {
+  backdrop-filter: blur(25px) saturate(180%);
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(245, 158, 11, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(245, 158, 11, 0.05) 0%, transparent 50%),
+    rgba(0, 0, 0, 0.98);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 50;
+}
+
+/* Add subtle grid pattern */
+.mobile-nav::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(245, 158, 11, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245, 158, 11, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: -1;
+  animation: gridFloat 20s linear infinite;
+}
+
+@keyframes gridFloat {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
+}
+
+/* Ensure full coverage on all devices */
+@media (max-width: 767px) {
+  .mobile-nav {
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important; /* Dynamic viewport height for mobile browsers */
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    max-height: 100dvh !important;
+    left: 0 !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+  }
+  
+  /* Ensure no body scroll when mobile nav is open */
+  body.mobile-nav-open {
+    overflow: hidden !important;
+    position: fixed !important;
+    width: 100% !important;
+  }
+}
+
+/* Prevent any viewport issues */
+.mobile-nav * {
+  box-sizing: border-box;
+}
+
+/* Enhanced hamburger menu */
+.lines {
+  cursor: pointer;
+  padding: 0.75rem;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  position: relative;
+  z-index: 60;
+}
+
+.lines:hover {
+  background: rgba(245, 158, 11, 0.1);
   transform: scale(1.05);
-  text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+}
+
+.lines:active {
+  transform: scale(0.95);
+}
+
+.line {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+  border-radius: 2px;
+}
+
+/* Enhanced mobile social links */
+.mobile-nav .flex a {
+  padding: 1rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  background: rgba(55, 65, 81, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(107, 114, 128, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-nav .flex a:hover {
+  background: rgba(245, 158, 11, 0.2);
+  transform: scale(1.1) translateY(-3px);
+  border-color: rgba(245, 158, 11, 0.6);
+  box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
 }
 
 /* Hamburger menu animation */
@@ -540,6 +1070,72 @@ nav button:hover::after {
 @media (min-width: 1024px) {
   .cntnr {
     gap: 4rem;
+  }
+}
+
+/* Footer Styles */
+.footer-section {
+  position: relative;
+  padding: 2rem 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(26, 26, 26, 0.8) 100%);
+  border-top: 1px solid rgba(245, 158, 11, 0.3);
+  overflow: hidden;
+}
+
+.footer-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, rgba(245, 158, 11, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.footer-section * {
+  position: relative;
+  z-index: 2;
+}
+
+.footer-section a {
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.footer-section a:hover {
+  transform: translateY(-2px);
+  text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+}
+
+/* Footer animation */
+.footer-section {
+  animation: footerGlow 4s ease-in-out infinite;
+}
+
+@keyframes footerGlow {
+  0%, 100% { 
+    border-top-color: rgba(245, 158, 11, 0.3);
+  }
+  50% { 
+    border-top-color: rgba(245, 158, 11, 0.6);
+  }
+}
+
+/* Responsive footer */
+@media (max-width: 768px) {
+  .footer-section {
+    padding: 1.5rem 1rem;
+    margin-top: 3rem;
+  }
+  
+  .footer-section p {
+    font-size: 1rem !important;
+  }
+  
+  .footer-section .text-sm {
+    font-size: 0.875rem !important;
   }
 }
 
