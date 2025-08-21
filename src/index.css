@@ -80,8 +80,11 @@ body {
   
   .navbar {
     z-index: 15 !important;
-    background: rgba(0,0,0,0.3) !important;
-    backdrop-filter: blur(5px) !important;
+    background: rgba(0,0,0,0.4) !important;
+    backdrop-filter: blur(8px) !important;
+    padding: 0.5rem 1rem !important;
+    height: auto !important;
+    min-height: 60px !important;
   }
   
   .sky {
@@ -97,18 +100,18 @@ body {
 @media (min-width: 769px) {
   .text {
     top: 4rem !important;
-    transform: translateX(-50%) scale(1.2) rotate(-8deg) !important;
+    transform: translateX(-50%) scale(1.0) rotate(0deg) !important;
     z-index: 3 !important;
   }
   
   .text h1 {
-    font-size: 10rem !important;
+    font-size: 8rem !important;
     line-height: 0.85 !important;
   }
   
   .character {
     z-index: 2 !important;
-    height: 90vh !important;
+    height: 85vh !important;
     width: auto !important;
     object-fit: contain !important;
     object-position: bottom center !important;
@@ -116,6 +119,7 @@ body {
   
   .main {
     overflow: hidden !important;
+    transform: rotate(0deg) scale(1.0) !important;
   }
   
   .landing {
@@ -349,4 +353,148 @@ button:hover {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+
+/* Mobile Navigation Styles */
+.mobile-nav {
+  backdrop-filter: blur(20px);
+  background: rgba(0, 0, 0, 0.95);
+  display: none;
+}
+
+/* Ensure mobile nav is hidden on desktop */
+@media (min-width: 768px) {
+  .mobile-nav {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+  
+  .lines {
+    display: none !important;
+  }
+}
+
+/* Ensure mobile nav works on mobile */
+@media (max-width: 767px) {
+  .mobile-nav {
+    display: flex !important;
+  }
+}
+
+.mobile-nav button {
+  font-family: "pricedown", sans-serif;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-nav button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(245, 158, 11, 0.2);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+.mobile-nav button:hover::before {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.mobile-nav button:hover {
+  transform: scale(1.05);
+  text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+}
+
+/* Hamburger menu animation */
+.lines {
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.lines:hover {
+  transform: scale(1.1);
+}
+
+.line {
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+/* Navbar improvements */
+.navbar {
+  backdrop-filter: blur(15px);
+  background: rgba(0, 0, 0, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  height: auto;
+  min-height: 60px;
+  transition: all 0.3s ease;
+}
+
+/* Desktop navbar - more compact */
+@media (min-width: 768px) {
+  .navbar {
+    min-height: 70px;
+    padding: 1rem 2rem !important;
+  }
+}
+
+/* Desktop navigation */
+nav button {
+  position: relative;
+  padding: 0.4rem 0.8rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+nav button:hover {
+  background: rgba(245, 158, 11, 0.1);
+  transform: translateY(-1px);
+}
+
+nav button::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(to right, #f59e0b, #fbbf24);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+nav button:hover::after {
+  width: 100%;
+}
+
+/* Social links in mobile nav */
+.mobile-nav .flex a {
+  padding: 1rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.mobile-nav .flex a:hover {
+  background: rgba(245, 158, 11, 0.2);
+  transform: scale(1.1);
 }

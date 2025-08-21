@@ -3,7 +3,6 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "remixicon/fonts/remixicon.css";
-import ParticleBackground from "./components/ParticleBackground";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -11,8 +10,28 @@ gsap.registerPlugin(ScrollTrigger);
 function App() {
   const [showContent, setShowContent] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const portfolioRef = useRef(null);
   const skillsRef = useRef(null);
+
+  // Toggle navigation menu
+  const toggleNav = () => {
+    setIsNavOpen(!isNavOpen);
+  };
+
+  // Close nav when clicking on a link
+  const closeNav = () => {
+    setIsNavOpen(false);
+  };
+
+  // Navigation scroll functions
+  const scrollToSection = (sectionClass) => {
+    const element = document.querySelector(sectionClass);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      closeNav();
+    }
+  };
 
   // Portfolio data
   const experiences = [
@@ -57,9 +76,7 @@ function App() {
     const imagesToPreload = [
       './bg.png',
       './sky.png',
-      './main.png',
-      './imag.png',
-      './ps5.png'
+      './ank.png'
     ];
 
     let loadedCount = 0;
@@ -71,14 +88,14 @@ function App() {
         img.onload = () => {
           loadedCount++;
           if (loadedCount === totalImages) {
-            setIsLoaded(true);
+            setTimeout(() => setIsLoaded(true), 500); // Small delay to ensure smooth transition
           }
           resolve();
         };
         img.onerror = () => {
           loadedCount++;
           if (loadedCount === totalImages) {
-            setIsLoaded(true);
+            setTimeout(() => setIsLoaded(true), 500);
           }
           resolve();
         };
@@ -87,6 +104,18 @@ function App() {
     };
 
     Promise.all(imagesToPreload.map(preloadImage));
+    
+    // Fallback - show content after 3 seconds regardless
+    setTimeout(() => {
+      if (!isLoaded) {
+        setIsLoaded(true);
+      }
+    }, 3000);
+    
+    // Secondary fallback - show content after 5 seconds regardless
+    setTimeout(() => {
+      setShowContent(true);
+    }, 5000);
   }, []);
   useGSAP(() => {
     if (!isLoaded) return;
@@ -95,26 +124,29 @@ function App() {
 
     tl.to(".vi-mask-group", {
       rotate: 10,
-      duration: 2,
+      duration: 1.5,
       ease: "power4.inOut",
       transformOrigin: "50% 50%",
     }).to(".vi-mask-group", {
-      scale: 10,
-      duration: 2,
-      delay: -1.8,
+      scale: 8,
+      duration: 1.5,
+      delay: -1.2,
       ease: "expo.inOut",
       transformOrigin: "50% 50%",
       opacity: 0,
       onUpdate: function () {
-        if (this.progress() >= 0.9) {
-          const svgElement = document.querySelector(".svg");
-          if (svgElement) {
-            svgElement.remove();
-          }
+        if (this.progress() >= 0.8) {
           setShowContent(true);
           this.kill();
         }
       },
+      onComplete: () => {
+        const svgElement = document.querySelector(".svg");
+        if (svgElement) {
+          svgElement.style.display = 'none';
+        }
+        setShowContent(true);
+      }
     });
   }, [isLoaded]);
 
@@ -216,6 +248,35 @@ function App() {
     });
 
   }, [showContent]);
+
+  // Mobile navigation animations
+  useGSAP(() => {
+    if (isNavOpen) {
+      gsap.set(".mobile-nav", { display: "flex" });
+      gsap.fromTo(".mobile-nav", 
+        { opacity: 0, scale: 0.8 },
+        { opacity: 1, scale: 1, duration: 0.3, ease: "power3.out" }
+      );
+      gsap.fromTo(".mobile-nav button", 
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.4, stagger: 0.1, ease: "power3.out", delay: 0.1 }
+      );
+      gsap.fromTo(".mobile-nav .flex", 
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.4, ease: "power3.out", delay: 0.3 }
+      );
+    } else {
+      gsap.to(".mobile-nav", {
+        opacity: 0,
+        scale: 0.8,
+        duration: 0.2,
+        ease: "power3.in",
+        onComplete: () => {
+          gsap.set(".mobile-nav", { display: "none" });
+        }
+      });
+    }
+  }, [isNavOpen]);
 
   useGSAP(() => {
     if (!showContent) return;
@@ -321,71 +382,163 @@ function App() {
 
   return (
     <>
-      <ParticleBackground />
-      <div className="svg flex items-center justify-center fixed top-0 left-0 z-[100] w-full h-screen overflow-hidden bg-[#000]">
-        <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <mask id="viMask">
-              <rect width="100%" height="100%" fill="black" />
-              <g className="vi-mask-group">
-                <text
-                  x="50%"
-                  y="50%"
-                  fontSize="150"
-                  className="md:text-[250px]"
-                  textAnchor="middle"
-                  fill="white"
-                  dominantBaseline="middle"
-                  fontFamily="Arial Black"
-                >
-                  ANK
-                </text>
-              </g>
-            </mask>
-          </defs>
-          <image
-            href="./bg.png"
-            width="100%"
-            height="100%"
-            preserveAspectRatio="xMidYMid slice"
-            mask="url(#viMask)"
-          />
-        </svg>
-      </div>
+      {!showContent && (
+        <div className="svg flex items-center justify-center fixed top-0 left-0 z-[100] w-full h-screen overflow-hidden bg-[#000]">
+          <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <mask id="viMask">
+                <rect width="100%" height="100%" fill="black" />
+                <g className="vi-mask-group">
+                  <text
+                    x="50%"
+                    y="50%"
+                    fontSize="150"
+                    className="md:text-[250px]"
+                    textAnchor="middle"
+                    fill="white"
+                    dominantBaseline="middle"
+                    fontFamily="Arial Black"
+                  >
+                    AR
+                  </text>
+                </g>
+              </mask>
+            </defs>
+            <image
+              href="./bg.png"
+              width="100%"
+              height="100%"
+              preserveAspectRatio="xMidYMid slice"
+              mask="url(#viMask)"
+            />
+          </svg>
+        </div>
+      )}
       {showContent && (
-        <div className="main w-full md:rotate-[-10deg] md:scale-[1.7] rotate-0 scale-100">
+        <div className="main w-full rotate-0 scale-100">
           <div className="landing overflow-hidden relative w-full h-screen bg-black">
-            <div className="navbar absolute top-0 left-0 z-[10] w-full py-4 md:py-10 px-4 md:px-10">
-              <div className="logo flex gap-3 md:gap-7">
-                <div className="lines flex flex-col gap-[3px] md:gap-[5px]">
-                  <div className="line w-8 md:w-15 h-1 md:h-2 bg-white"></div>
-                  <div className="line w-6 md:w-8 h-1 md:h-2 bg-white"></div>
-                  <div className="line w-4 md:w-5 h-1 md:h-2 bg-white"></div>
+            <div className="navbar absolute top-0 left-0 z-[20] w-full py-2 md:py-4 px-4 md:px-8">
+              <div className="flex justify-between items-center">
+                <div className="logo flex gap-3 md:gap-5 items-center">
+                  {/* Hamburger Menu - Only visible on mobile */}
+                  <div className="lines flex flex-col gap-[3px] cursor-pointer md:hidden" onClick={toggleNav}>
+                    <div className={`line w-8 h-1 bg-white transition-all duration-300 ${isNavOpen ? 'rotate-45 translate-y-2' : ''}`}></div>
+                    <div className={`line w-6 h-1 bg-white transition-all duration-300 ${isNavOpen ? 'opacity-0' : ''}`}></div>
+                    <div className={`line w-4 h-1 bg-white transition-all duration-300 ${isNavOpen ? '-rotate-45 -translate-y-2' : ''}`}></div>
+                  </div>
+                  <h3 className="text-xl md:text-2xl -mt-[2px] md:-mt-[4px] leading-none text-white font-bold">
+                    Ankit Ranjan
+                  </h3>
                 </div>
-                <h3 className="text-2xl md:text-4xl -mt-[4px] md:-mt-[8px] leading-none text-white">
-                  Rockstar
-                </h3>
+
+                {/* Desktop Navigation */}
+                <nav className="hidden md:flex items-center gap-6">
+                  <button 
+                    className="text-white hover:text-yellow-500 transition-colors duration-300 text-sm font-semibold"
+                    onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
+                  >
+                    Home
+                  </button>
+                  <button 
+                    className="text-white hover:text-yellow-500 transition-colors duration-300 text-sm font-semibold"
+                    onClick={() => scrollToSection('.portfolio-section')}
+                  >
+                    Experience
+                  </button>
+                  <button 
+                    className="text-white hover:text-yellow-500 transition-colors duration-300 text-sm font-semibold"
+                    onClick={() => scrollToSection('.skills-container')}
+                  >
+                    Skills
+                  </button>
+                  <button 
+                    className="text-white hover:text-yellow-500 transition-colors duration-300 text-sm font-semibold"
+                    onClick={() => scrollToSection('.contact-section')}
+                  >
+                    Contact
+                  </button>
+                </nav>
+              </div>
+
+              {/* Mobile Navigation Menu - Only shows on mobile */}
+              <div className={`mobile-nav md:hidden fixed top-0 left-0 w-full h-full bg-black/95 backdrop-blur-lg z-[15] transition-all duration-500 ${isNavOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+                {/* Close button */}
+                <button 
+                  className="absolute top-6 right-6 text-white hover:text-yellow-500 transition-colors duration-300 text-3xl z-20"
+                  onClick={closeNav}
+                >
+                  <i className="ri-close-line"></i>
+                </button>
+                
+                <div className="flex flex-col items-center justify-center h-full gap-8">
+                  <button 
+                    className="text-white hover:text-yellow-500 transition-colors duration-300 text-3xl font-bold"
+                    onClick={() => {
+                      window.scrollTo({top: 0, behavior: 'smooth'});
+                      closeNav();
+                    }}
+                  >
+                    <i className="ri-home-line mr-4"></i>
+                    Home
+                  </button>
+                  <button 
+                    className="text-white hover:text-yellow-500 transition-colors duration-300 text-3xl font-bold"
+                    onClick={() => scrollToSection('.portfolio-section')}
+                  >
+                    <i className="ri-briefcase-line mr-4"></i>
+                    Experience
+                  </button>
+                  <button 
+                    className="text-white hover:text-yellow-500 transition-colors duration-300 text-3xl font-bold"
+                    onClick={() => scrollToSection('.skills-container')}
+                  >
+                    <i className="ri-code-line mr-4"></i>
+                    Skills
+                  </button>
+                  <button 
+                    className="text-white hover:text-yellow-500 transition-colors duration-300 text-3xl font-bold"
+                    onClick={() => scrollToSection('.contact-section')}
+                  >
+                    <i className="ri-mail-line mr-4"></i>
+                    Contact
+                  </button>
+                  
+                  {/* Social Links */}
+                  <div className="flex gap-6 mt-8">
+                    <a href="https://linkedin.com/in/ankitrj3" target="_blank" rel="noopener noreferrer" className="text-white hover:text-yellow-500 transition-colors duration-300">
+                      <i className="ri-linkedin-line text-3xl"></i>
+                    </a>
+                    <a href="https://github.com/ankitrj3" target="_blank" rel="noopener noreferrer" className="text-white hover:text-yellow-500 transition-colors duration-300">
+                      <i className="ri-github-line text-3xl"></i>
+                    </a>
+                    <a href="mailto:ankitrobinranjan@gmail.com" className="text-white hover:text-yellow-500 transition-colors duration-300">
+                      <i className="ri-mail-line text-3xl"></i>
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
 
             <div className="imagesdiv relative overflow-hidden w-full h-screen">
               <img
-                className="absolute sky scale-[1.5] rotate-[-20deg] top-0 left-0 w-full h-full object-cover"
+                className="absolute sky scale-[1.1] rotate-0 top-0 left-0 w-full h-full object-cover"
                 src="./sky.png"
-                alt=""
+                alt="Sky Background"
+                loading="eager"
               />
               <img
-                className="absolute scale-[1.8] rotate-[-3deg] bg top-0 left-0 w-full h-full object-cover"
+                className="absolute scale-[1.1] rotate-0 bg top-0 left-0 w-full h-full object-cover"
                 src="./bg.png"
-                alt=""
+                alt="City Background"
+                loading="eager"
               />
-              <div className="text text-white flex flex-col gap-1 md:gap-3 absolute top-10 md:top-20 left-1/2 -translate-x-1/2 scale-[0.6] md:scale-[1.4] rotate-0 md:rotate-[-10deg]">
-                <h1 className="text-[6rem] md:text-[12rem] leading-none -ml-20 md:-ml-40">ankit</h1>
-                <h1 className="text-[6rem] md:text-[12rem] leading-none ml-10 md:ml-20">ranjan</h1>
-                <h1 className="text-[6rem] md:text-[12rem] leading-none -ml-20 md:-ml-40">portfolio</h1>
+              <div className="text text-white flex flex-col gap-1 md:gap-3 absolute top-16 md:top-20 left-1/2 -translate-x-1/2 scale-[0.5] md:scale-[1.0] rotate-0">
+                <h1 className="text-[6rem] md:text-[8rem] leading-[0.8] text-center font-bold">ankit</h1>
+                <h1 className="text-[6rem] md:text-[8rem] leading-[0.8] text-center font-bold">ranjan</h1>
+                <h1 className="text-[6rem] md:text-[8rem] leading-[0.8] text-center font-bold">portfolio</h1>
               </div>
               <img
-                className="absolute character bottom-0 left-1/2 -translate-x-1/2 scale-[1.0] md:scale-[1.0] rotate-0 h-[80%] md:h-[90%] w-auto object-contain object-bottom z-[2]"
+                className="absolute character bottom-0 left-1/2 -translate-x-1/2 scale-[1.0] rotate-0 h-[75%] md:h-[85%] w-auto object-contain object-bottom z-[2]"
                 src="./ank.png"
                 alt="Ankit Ranjan Portfolio"
                 loading="eager"
