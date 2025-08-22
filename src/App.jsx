@@ -111,14 +111,6 @@ function App() {
     technologies: ["Java", "Spring Boot", "AWS", "Docker", "Kubernetes", "CI/CD"]
   },
   {
-    title: "Web Developer Intern",
-    company: "Colour Nepal Pvt. Ltd",
-    period: "Feb 2025 - Jul 2025",
-    description:
-      "Developed ColourNepal.com as part of a team using Next.js. Implemented full API integration for dynamic content, built responsive and SEO-optimized UI, and handled deployment workflows end-to-end.",
-    technologies: ["Next.js", "React", "API Integration", "CI/CD", "Responsive Design"]
-  },
-  {
     title: "Game Development Intern",
     company: "CipherSchools",
     period: "Jun 2024 - Aug 2024",
