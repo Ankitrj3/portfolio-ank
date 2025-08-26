@@ -41,7 +41,7 @@ function App() {
   // Download resume function
   const downloadResume = () => {
     const link = document.createElement('a');
-    link.href = '/AnkitCVexp.pdf';
+    link.href = '/resume.pdf';
     link.download = 'Ankit_Ranjan_Resume.pdf';
     document.body.appendChild(link);
     link.click();
